@@ -1,23 +1,47 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Home from '../views/home/Home';
 import Login from '../views/login/Login'
 import Signup from '../views/signup/Signup'
 import Profile from '../views/profile/Profile'
 import CreateEvent from '../views/createEvent/CreateEvent'
 import Event from '../views/event/Event'
+import DefaultLayout from '../components/organisms/defaultLayout/DefaultLayout';
+import Explore from '../views/explore/Explore';
 
 const Router = createBrowserRouter([
     {
+        path: '/home',
+        element: <Navigate to='/'/>
+    },
+    {
+        path: '/dashboard',
+        element: <Navigate to='/'/>
+    },
+    {
         path: '/',
-        element: <Home/>
-    },
-    {
-        path: '/create-event',
-        element: <CreateEvent/>
-    },
-    {
-        path: '/event',
-        element: <Event/>
+        element: <DefaultLayout/>,
+        children: [
+            {
+            path: '/',
+            element: <Home/>
+        },
+        {
+            path: '/explore',
+            element: <Explore/>
+        },
+        {
+            path: '/create-event',
+            element: <CreateEvent/>
+        },
+        {
+            path: '/event',
+            element: <Event/>
+        },
+        {
+            path: '/profile',
+            element: <Profile/>
+        },
+        ]
     },
     {
         path: '/login',
@@ -26,10 +50,6 @@ const Router = createBrowserRouter([
     {
         path: '/signup',
         element: <Signup/>
-    },
-    {
-        path: '/profile',
-        element: <Profile/>
     },
 ])
 
