@@ -8,6 +8,7 @@ import Event from '../views/event/Event';
 import DefaultLayout from '../components/organisms/defaultLayout/DefaultLayout';
 import Explore from '../views/explore/Explore';
 import Settings from '../views/settings/Settings';
+import GuestLayout from '../components/organisms/guestLayout/GuestLayout';
 
 const Router = createBrowserRouter([
     {
@@ -49,12 +50,18 @@ const Router = createBrowserRouter([
         ]
     },
     {
-        path: '/login',
-        element: <Login/>
-    },
-    {
-        path: '/signup',
-        element: <Signup/>
+        path: '/',
+        element: <GuestLayout/>,
+        children: [
+            {
+            path: '/login',
+            element: <Login/>
+        },
+        {
+            path: '/signup',
+            element: <Signup/>
+        },
+        ]
     },
 ])
 
