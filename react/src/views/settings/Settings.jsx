@@ -1,9 +1,9 @@
 import PageComponent from "../../components/organisms/pageComponent/PageComponent";
 
-export default function Home() {
+export default function Settings() {
   return (
     <>
-      <PageComponent title='Inicio'>
+      <PageComponent title='Ajustes'>
           Children
         </PageComponent>
     </>

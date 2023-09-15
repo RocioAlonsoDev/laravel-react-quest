@@ -1,12 +1,13 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Home from '../views/home/Home';
-import Login from '../views/login/Login'
-import Signup from '../views/signup/Signup'
-import Profile from '../views/profile/Profile'
-import CreateEvent from '../views/createEvent/CreateEvent'
-import Event from '../views/event/Event'
+import Login from '../views/login/Login';
+import Signup from '../views/signup/Signup';
+import Profile from '../views/profile/Profile';
+import CreateEvent from '../views/createEvent/CreateEvent';
+import Event from '../views/event/Event';
 import DefaultLayout from '../components/organisms/defaultLayout/DefaultLayout';
 import Explore from '../views/explore/Explore';
+import Settings from '../views/settings/Settings';
 
 const Router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const Router = createBrowserRouter([
         {
             path: '/profile',
             element: <Profile/>
+        },
+        {
+            path: '/settings',
+            element: <Settings/>
         },
         ]
     },
