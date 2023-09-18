@@ -6,7 +6,9 @@ export default function ButtonAtom({color= 'indigo',
                                     href = '',
                                     link = false,
                                     target = "_blank",
-                                    children}) {
+                                    children,
+                                    onClick = () => {},
+                                }) {
     let classes = [
         "flex",
         "whitespace-nowrap",
@@ -84,11 +86,21 @@ export default function ButtonAtom({color= 'indigo',
             "rounded-full",
             "text-sm"
         ]
+    }else{
+        classes = [
+            ...classes,
+            'p-0',
+            'py-2',
+            'px-4',
+            'rounded-md'
+        ]
     }
 
-    
-
   return (
-    <div>ButtonAtom</div>
+    <>
+        {href && (<a href={href} className={classes.join(" ")} target={target}>{children}</a>)}
+        {to && (<Link to={to} className={classes.join(" ")}>{children}</Link>)}
+        {!to && !href && (<button onClick={onClick} className={classes.join(" ")}>{children}</button>)}
+    </>
   )
 }
