@@ -2,13 +2,9 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
+import { UseStateContext } from '../../../context/ContextProvider'
+import { Navigate } from 'react-router-dom'
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
 const navigation = [
   { name: 'Inicio', to: '/', current: true },
   { name: 'Explorar', to: '/explore', current: false },
@@ -23,9 +19,23 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
+  const { currentUser , userToken } = UseStateContext();
+
+  console.log(userToken)
+
+  if(!userToken) {
+    return <Navigate to='/login' />
+  }
+
   const logout = (event) => {
     event.preventDefault();
     console.log('logout')
+  }
+
+  const user = {
+    name: currentUser.name,
+    email: currentUser.email,
+    imageUrl: currentUser.imageUrl
   }
 
   return (
@@ -184,7 +194,7 @@ export default function DefaultLayout() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
+                        href={item.to}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
                         {item.name}
