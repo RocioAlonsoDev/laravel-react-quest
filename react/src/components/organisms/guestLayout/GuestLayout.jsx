@@ -5,8 +5,6 @@ import { Navigate } from "react-router-dom";
 export default function GuestLayout() {
   const { currentUser , userToken } = UseStateContext();
 
-  console.log(currentUser)
-
   if(userToken) {
     return <Navigate to='/' />
   }

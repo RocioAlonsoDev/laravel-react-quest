@@ -3,12 +3,12 @@ import { Router } from 'react-router-dom'
 
 const APIservice = axios.create({
     baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`
-    
 })
 
-APIservice.interceptors.request.request.use((config)=>{
+APIservice.interceptors.request.use((config)=>{
     const token = '123'
-    config.header.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `Bearer ${token}`
+    return config
 })
 
 APIservice.interceptors.response.use(response => {
