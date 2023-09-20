@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
 import { UseStateContext } from '../../../context/ContextProvider'
 import { Navigate } from 'react-router-dom'
+import  APIservice  from '../../../APIservice/APIservice'
 
 const navigation = [
   { name: 'Inicio', to: '/', current: true },
@@ -19,9 +20,7 @@ function classNames(...classes) {
 }
 
 export default function DefaultLayout() {
-  const { currentUser , userToken } = UseStateContext();
-
-  console.log(userToken)
+  const { currentUser , userToken , setCurrentUser , setUserToken } = UseStateContext();
 
   if(!userToken) {
     return <Navigate to='/login' />
@@ -29,7 +28,12 @@ export default function DefaultLayout() {
 
   const logout = (event) => {
     event.preventDefault();
-    console.log('logout')
+    APIservice.post('/logout')
+    .then(res => {
+      setCurrentUser({})
+      setUserToken(null)
+      console.log(res)
+    })
   }
 
   const user = {
@@ -200,6 +204,20 @@ export default function DefaultLayout() {
                         {item.name}
                       </Disclosure.Button>
                     ))}
+                    <Disclosure.Button key='logout'>
+                        {({ active }) => (
+                          <a
+                              href='/logout'
+                              onClick={(event)=> logout(event)}
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
+                              )}
+                            >
+                              Cerrar sesión
+                            </a>
+                          )}
+                    </Disclosure.Button>
                   </div>
                 </div>
               </Disclosure.Panel>
