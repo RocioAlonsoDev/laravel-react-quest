@@ -55,7 +55,7 @@ export const ContextProvider = ({ children }) => {
     })
     
     const [userToken,_setUserToken] = useState(localStorage.getItem('TOKEN') || '')
-    const [events,setEvents] = useState(tmpEvent)
+    const [quests,setQuests] = useState(tmpEvent)
 
     const setUserToken = (token) => {
         if(token){
@@ -73,7 +73,7 @@ export const ContextProvider = ({ children }) => {
             setCurrentUser,
             userToken,
             setUserToken,
-            events
+            quests
         }}>
             {children}
         </StateContext.Provider>

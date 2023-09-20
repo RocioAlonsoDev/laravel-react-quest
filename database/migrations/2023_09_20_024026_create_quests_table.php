@@ -6,16 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations. 
-     * title
-     * description
-     * banner img
-     * requisites
-     * date
-     * location
-     * creator_id
-     */
     public function up(): void
     {
         Schema::create('quests', function (Blueprint $table) {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('quest_comments', function (Blueprint $table) {
             $table->id();
-            $table->longText('description');
+            $table->text('description');
             $table->foreignIdFor(\App\Models\Quest::class, 'quest_id');
             $table->foreignIdFor(\App\Models\User::class, 'user_id');
             $table->timestamps();

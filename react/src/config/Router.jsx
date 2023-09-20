@@ -3,8 +3,8 @@ import Home from '../views/home/Home';
 import Login from '../views/login/Login';
 import Signup from '../views/signup/Signup';
 import Profile from '../views/profile/Profile';
-import CreateEvent from '../views/createEvent/CreateEvent';
-import Event from '../views/event/Event';
+import CreateQuest from '../views/createQuest/CreateQuest';
+import Quest from '../views/quest/Quest';
 import DefaultLayout from '../components/organisms/defaultLayout/DefaultLayout';
 import Explore from '../views/explore/Explore';
 import Settings from '../views/settings/Settings';
@@ -32,12 +32,12 @@ const Router = createBrowserRouter([
             element: <Explore/>
         },
         {
-            path: '/create-event',
-            element: <CreateEvent/>
+            path: '/create-quest',
+            element: <CreateQuest/>
         },
         {
-            path: '/event',
-            element: <Event/>
+            path: '/quest',
+            element: <Quest/>
         },
         {
             path: '/profile',
