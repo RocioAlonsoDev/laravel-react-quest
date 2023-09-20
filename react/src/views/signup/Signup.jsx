@@ -1,10 +1,10 @@
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
 import APIservice from '../../APIservice/APIservice'
-import UseStateContext from '../../context/ContextProvider'
+import { UseStateContext } from '../../context/ContextProvider'
 
 function Signup() {
-  const[setCurrentUser, setUserToken] = UseStateContext();
+  const{setCurrentUser, setUserToken} = UseStateContext();
   const[fullName,setFullName] = useState('');
   const[email,setEmail] = useState('');
   const[password,setPassword] = useState('');
@@ -29,7 +29,6 @@ function Signup() {
       if(error.response){
         const finalErrors= Object.values(error.response.data.errors).reduce((accum, next) => 
         [...accum, ...next], [])
-        console.log(finalErrors);
         setError({__html: finalErrors.join('<br />')})
       }
       console.log(error)
