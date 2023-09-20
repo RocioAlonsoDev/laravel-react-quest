@@ -22,12 +22,9 @@ function Login() {
       setUserToken(data.token)
     })
     .catch((error)=>{
-      if(error.response){
-        const finalErrors= Object.values(error.response.data.errors).reduce((accum, next) => 
-        [...accum, ...next], [])
-        setError({__html: finalErrors.join('<br />')})
+      if(error.response.data.error){
+        setError({__html:error.response.data.error})
       }
-      console.log(error)
     })
 
   }
