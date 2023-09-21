@@ -1,17 +1,18 @@
 import PageComponent from "../../components/organisms/pageComponent/PageComponent"
 import { useState } from "react"
-import ButtonAtom from '../../components/atoms/buttonAtom/ButtonAtom'
+import APIservice from '../../APIservice/APIservice'
 
 export default function CreateEvent() {
   const [event, setEvent] = useState({
     title: '',
-    slug: '',
-    status: false,
     description: '',
-    image: null,
-    image_url: null,
-    expire_date: '',
-    tags: []
+    banner_img: null,
+    requisites: '',
+    date: '',
+    location: '',
+    max_users: null,
+    tags: '',
+    status: true
   })
 
   const onImageChoose = () => {
@@ -20,156 +21,195 @@ export default function CreateEvent() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    console.log(ev);
+    APIservice.post('/quest',{
+      title: 'Lorem Ipsum',
+      description: 'Test',
+      location: 'Online',
+      date: '2023-12-07T00:00',
+      requisites: 'Zoom account',
+      status: true
+    })
+   
   }
 
   return (
     <>
       <PageComponent title='Nueva Quest'>
-        <form action="#" method='POST' onSubmit={onSubmit}>
-          <div className="shadow sm:overflow-hidden sm:rounded-md">
-            <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-              {/* {Image} */}
-              <div>
-                <label htmlFor="" className="block text-sm font-medium text-gray-700">
-                  Añade una imagen
-                </label>
-                <div className="mt-1 flex items-center">
-                  {event.img_url && (
-                    <img 
-                    src={event.image_url}
-                    alt=''
-                    className="w-32 h-32 object-cover"
-                    />
-                  )}
-                  {!event.img_url && (
-                    <span className="flex justify-center items-center text-gray-400 h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                      </svg>
-                    </span>
-                  )}
-                  <button
-                    type="button"
-                    className="relative ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    <input
-                      type="file"
-                      className="absolute left-0 top-0 right-0 bottom-0 opacity-0"
-                      onChange={onImageChoose}
-                    />
-                    Change
-                  </button>
+      <form action="#" method='POST' onSubmit={onSubmit}>
+      <div className="space-y-12 shadow sm:overflow-hidden sm:rounded-md">
+        <div className="border-b  space-y-6 bg-white px-4 py-5 sm:p-6">
+
+
+          <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            {/*Title*/}
+            <div className="col-span-full">
+              <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
+                Nombre del evento
+              </label>
+              <div className="mt-2">
+                <input
+                   type="text"
+                   name="title"
+                   id="title"
+                   value={event.title}
+                   onChange={(ev) =>
+                     setEvent({ ...event, title: ev.target.value })
+                   }
+                   
+                  className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            {/*Title*/}
+
+            {/*Description*/}
+            <div className="col-span-full">
+              <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+                Descripción
+              </label>
+              <div className="mt-2">
+                <textarea
+                  id="description"
+                  name="description"
+                  rows={4}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  defaultValue={''}
+                />
+              </div>
+            </div>
+            {/*Description*/}
+
+            {/*Banner*/}
+            <div className="col-span-full">
+              <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                Portada
+              </label>
+              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                <div className="text-center">
+
+                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                    <label
+                      htmlFor="banner-img"
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                    >
+                      <span>Sube una imagen</span>
+                      <input id="banner-img" name="banner_img" type="file" className="sr-only" />
+                    </label>
+                    <p className="pl-1">o arrastra y suéltala aquí.</p>
+                  </div>
+                  <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF</p>
                 </div>
               </div>
-              {/*Image*/}
+            </div>
+            {/*Banner*/}
 
-              {/*Title*/}
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium text-gray-700">
-                  Survey Title
+            
+
+            {/*Location*/}
+              <div className="sm:col-span-3">
+                <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                  ¿Dónde?
                 </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="location"
+                    id="location"
+                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+            {/*Location*/}
+
+            {/*Date*/}
+            <div className="sm:col-span-3">
+              <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                ¿Cuándo?
+              </label>
+              <div className="mt-2">
+                <input
+                type="datetime-local"
+                name="expire_date"
+                id="expire_date"
+                value={event.expire_date}
+                onChange={(ev) =>
+                  setEvent({ ...event, expire_date: ev.target.value })
+                }
+                className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            {/*Date*/}
+
+            {/*Requisites*/}
+            <div className="sm:col-span-3">
+              <label htmlFor="requisites" className="block text-sm font-medium leading-6 text-gray-900">
+                Requisitos para los asistentes
+              </label>
+              <div className="mt-2">
                 <input
                   type="text"
-                  name="title"
-                  id="title"
+                  name="requisites"
+                  id="requisites"
                   value={event.title}
                   onChange={(ev) =>
                     setEvent({ ...event, title: ev.target.value })
                   }
-                  placeholder="Event Title"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Ejemplo: Cuenta de Zoom"
+                  className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {/*Title*/}
-              {/*Description*/}
-               <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Description
-                </label>
-                {/* <pre>{ JSON.stringify(survey, undefined, 2) }</pre> */}
-                <textarea
-                  name="description"
-                  id="description"
-                  value={event.description || ""}
-                  onChange={(ev) =>
-                    setEvent({ ...event, description: ev.target.value })
-                  }
-                  placeholder="Describe your survey"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                ></textarea>
-              </div>
-              {/*Description*/}
+            </div>
+            {/*Requisites*/}
 
-              {/*Expire Date*/}
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="expire_date"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Expire Date
+            {/*Location*/}
+              <div className="sm:col-span-3">
+                <label htmlFor="max-users" className="block text-sm font-medium leading-6 text-gray-900">
+                  ¿Cuántos usuarios pueden participar?
                 </label>
-                <input
-                  type="date"
-                  name="expire_date"
-                  id="expire_date"
-                  value={event.expire_date}
-                  onChange={(ev) =>
-                    setEvent({ ...event, expire_date: ev.target.value })
-                  }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-              </div>
-              {/*Expire Date*/}
-
-              {/*Active*/}
-              <div className="flex items-start">
-                <div className="flex h-5 items-center">
+                <div className="mt-2">
                   <input
-                    id="status"
-                    name="status"
-                    type="checkbox"
-                    checked={event.status}
-                    onChange={(ev) =>
-                      setEvent({ ...event, status: ev.target.checked })
-                    }
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    type="number"
+                    name="max_users"
+                    id="max-users"
+                    className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="comments"
-                    className="font-medium text-gray-700"
-                  >
-                    Active
-                  </label>
-                  <p className="text-gray-500">
-                    Whether to make survey publicly available
-                  </p>
-                </div>
               </div>
-              {/*Active*/}
+            {/*Location*/}
 
-              {/* <button type="button" onClick={addQuestion}>
-                Add question
-              </button>
-              <SurveyQuestions
-                questions={survey.questions}
-                onQuestionsUpdate={onQuestionsUpdate}
-              /> */}
+            {/*Tags*/}
+            <div className="col-span-full">
+              <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
+                Etiquetas
+              </label>
+              <div className="mt-2">
+                <textarea
+                  id="tags"
+                  name="tags"
+                  rows={4}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  defaultValue={''}
+                />
+              </div>
             </div>
-            <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-              <ButtonAtom>Save</ButtonAtom>
+            {/*Tags*/}
 
-                </div>
+            <div className="mt-6 flex items-center justify-end gap-x-6 col-span-full">
+                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Save
+                </button>
               </div>
-            
-        </form>
+          </div>
+        </div>
+      </div>      
+      </form>
       </PageComponent>
     </>  
     )

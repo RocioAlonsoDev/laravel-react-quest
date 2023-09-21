@@ -6,11 +6,6 @@ use App\Http\Resources\QuestResource;
 use App\Models\Quest;
 use App\Http\Requests\StoreQuestRequest;
 use App\Http\Requests\UpdateQuestRequest;
-// use Illuminate\Support\Facades\File;
-// use Illuminate\Support\Facades\Validator;
-// use Illuminate\Support\Str;
-// use Illuminate\Validation\Rule;
-// use Illuminate\Validation\Rules\Enum;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -38,7 +33,7 @@ class QuestController extends Controller
 
         $quest = Quest::create($data);
 
-        return new SurveyResource($quest);
+        return new QuestResource($quest);
     }
 
     public function show(Quest $quest,Request $request)

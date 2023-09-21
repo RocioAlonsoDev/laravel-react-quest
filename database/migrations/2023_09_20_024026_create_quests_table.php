@@ -13,11 +13,13 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class, 'creator_id');
             $table->string('title',255);
             $table->longText('description')->nullable();
-            $table->string('banner_img',255);
+            $table->string('banner_img',255)->nullable();;
             $table->text('requisites',255);
             $table->timestamp('date')->nullable();
             $table->string('location',255);
-            $table->integer('max_users');
+            // $table->json('tags');
+            $table->boolean('status')->default(true);;
+            $table->integer('max_users')->nullable();
             $table->timestamps();
         });
     }
