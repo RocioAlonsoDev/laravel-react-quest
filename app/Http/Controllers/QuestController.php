@@ -7,6 +7,8 @@ use App\Models\Quest;
 use App\Http\Requests\StoreQuestRequest;
 use App\Http\Requests\UpdateQuestRequest;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 
 class QuestController extends Controller

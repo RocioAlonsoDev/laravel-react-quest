@@ -28,7 +28,8 @@ class StoreQuestRequest extends FormRequest
             'requisites' => 'nullable|string',
             'date' => 'nullable|date|after:today',
             'location' => 'required|string',
-            'max-users' => 'nullable|integer'
+            'max_users' => 'nullable|integer',
+            'status' => 'nullable|boolean'
         ];
     }
 }
