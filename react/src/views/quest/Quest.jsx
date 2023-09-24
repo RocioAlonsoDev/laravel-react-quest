@@ -1,6 +1,6 @@
 
 
-export default function Event() {
+export default function Quest() {
   
   
   return (
