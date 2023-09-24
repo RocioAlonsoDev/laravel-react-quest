@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
@@ -35,6 +35,13 @@ export default function DefaultLayout() {
       console.log(res)
     })
   }
+
+  useEffect(() => {
+    APIservice.get('/me')
+    .then(({data})=>{
+      setCurrentUser(data)
+    })
+  },[])
 
   const user = {
     name: currentUser.name,

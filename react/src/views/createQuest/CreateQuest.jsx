@@ -207,7 +207,7 @@ export default function CreateQuest() {
                   type="text"
                   name="requisites"
                   id="requisites"
-                  value={quest.title}
+                
                   onChange={(ev) =>
                     setQuest({ ...quest, requisites: ev.target.value })
                   }
