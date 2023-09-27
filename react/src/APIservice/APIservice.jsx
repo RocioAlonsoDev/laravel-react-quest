@@ -16,7 +16,7 @@ APIservice.interceptors.response.use(response => {
     if (error.response && error.response.status === 401){
         localStorage.removeItem('TOKEN');
         window.location.reload();
-        Router.navigate('/login');
+        // Router.navigate('/login');
         // return error;
     }
     throw error;

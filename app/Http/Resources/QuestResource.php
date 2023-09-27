@@ -19,6 +19,7 @@ class QuestResource extends JsonResource
             'location' => $this->location,
             'max_users' => $this->max_users,
             'status' => $this->status,
+            'creator_id' => $this->creator_id,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s')
         ];

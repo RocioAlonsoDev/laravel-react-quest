@@ -1,13 +1,38 @@
 import PageComponent from "../../components/organisms/pageComponent/PageComponent"
-import { UseStateContext } from "../../context/ContextProvider"
 import QuestAtom from "../../components/atoms/questAtom/QuestAtom"
 import ButtonAtom from "../../components/atoms/buttonAtom/ButtonAtom";
+import { useEffect ,useState } from "react";
+import APIservice from '../../APIservice/APIservice'
 
 export default function Home() {
-  const { quests } = UseStateContext();
+  const [quests, setQuests] = useState([])
+  const [loading,setLoading] = useState(true)
+
   const onDeleteClick = () => {
     console.log("On Delete Click")
   }
+
+  const getQuests = (url) => {
+    url = url || "/quest";
+    APIservice.get(url)
+      .then(({ data }) => {
+        setQuests(data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    const delay = 3000;
+    const timerId = setTimeout(() => {
+      getQuests();
+    }, delay);
+  
+    return () => clearTimeout(timerId);
+  }, []);
 
   return (
     <>
@@ -20,11 +45,17 @@ export default function Home() {
           Nueva Quest
         </ButtonAtom>
       }>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-        {quests.map(quest => (
-          <QuestAtom quest={quest} key={quest.id} onDeleteClick={onDeleteClick}></QuestAtom>
-        ))}
-        </div>
+        {loading && 
+        <div className="text-lg text-center">
+          Cargando quests...
+        </div>}
+        {!loading && 
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+            {quests.map(quest => (
+              <QuestAtom quest={quest} key={quest.id} onDeleteClick={onDeleteClick}></QuestAtom>
+            ))}
+          </div>
+        }
       </PageComponent>
     
       

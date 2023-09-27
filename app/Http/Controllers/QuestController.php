@@ -18,11 +18,14 @@ class QuestController extends Controller
         $user = $request->user();
 
         return QuestResource::collection(
-            Quest::where('creator_id',$user->id)
-            ->orderBy('created_at','desc')
+            Quest::
+            // where('creator_id',$user->id)
+            // ->
+            orderBy('created_at','desc')
             ->paginate(10)
         );
     }
+
 
     public function store(StoreQuestRequest $request)
     {

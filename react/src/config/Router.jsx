@@ -36,8 +36,8 @@ const Router = createBrowserRouter([
             element: <CreateQuest/>
         },
         {
-            path: '/quest',
-            element: <Quest/>
+            path: '/quest/:id',
+            element: <CreateQuest/>
         },
         {
             path: '/profile',
