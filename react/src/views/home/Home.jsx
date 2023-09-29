@@ -3,36 +3,49 @@ import QuestAtom from "../../components/atoms/questAtom/QuestAtom"
 import ButtonAtom from "../../components/atoms/buttonAtom/ButtonAtom";
 import { useEffect ,useState } from "react";
 import APIservice from '../../APIservice/APIservice'
+// import Router from "../../config/Router";
 
 export default function Home() {
   const [quests, setQuests] = useState([])
   const [loading,setLoading] = useState(true)
 
-  const onDeleteClick = () => {
-    console.log("On Delete Click")
-  }
+  const CACHE_EXPIRATION_TIME = 60000;
 
-  const getQuests = (url) => {
-    url = url || "/quest";
-    APIservice.get(url)
-      .then(({ data }) => {
-        setQuests(data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
-  };
+  // const onDeleteClick = (id) => {
+  //   if(window.confirm('Estás apunto de eliminar este evento. ¿Quieres continuar?')){
+  //     APIservice.delete(`/quest/${id}`)
+  //     .then(()=>{
+  //       Router.navigate('/');
+  //     })
+  //   }
+  // }
 
-  useEffect(() => {
-    const delay = 3000;
-    const timerId = setTimeout(() => {
-      getQuests();
-    }, delay);
-  
-    return () => clearTimeout(timerId);
-  }, []);
+  useEffect(() => {    
+    const getQuests = () => {
+      const cachedData = JSON.parse(localStorage.getItem("cachedData"));
+      const cacheTimestamp = localStorage.getItem("cacheTimestamp");
+      if (cachedData && cacheTimestamp) {
+        const currentTime = new Date().getTime();
+        if (currentTime - parseInt(cacheTimestamp, 10) <= CACHE_EXPIRATION_TIME) {
+          setQuests(cachedData);
+          setLoading(false);
+        }
+      }else{
+          let url = "/quest"
+          APIservice.get(url)
+            .then(({ data }) => {
+              setQuests(data.data);
+              setLoading(false);
+              localStorage.setItem("cachedData",JSON.stringify(data.data))
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+              setLoading(false);
+            });
+        }
+    }
+    getQuests()
+  },[]);
 
   return (
     <>
@@ -52,7 +65,7 @@ export default function Home() {
         {!loading && 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             {quests.map(quest => (
-              <QuestAtom quest={quest} key={quest.id} onDeleteClick={onDeleteClick}></QuestAtom>
+              <QuestAtom quest={quest} key={quest.id} onDeleteClick={() => onDeleteClick(quest.id)}></QuestAtom>
             ))}
           </div>
         }

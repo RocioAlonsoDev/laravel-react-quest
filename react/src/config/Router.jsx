@@ -4,7 +4,6 @@ import Login from '../views/login/Login';
 import Signup from '../views/signup/Signup';
 import Profile from '../views/profile/Profile';
 import CreateQuest from '../views/createQuest/CreateQuest';
-import Quest from '../views/quest/Quest';
 import DefaultLayout from '../components/organisms/defaultLayout/DefaultLayout';
 import Explore from '../views/explore/Explore';
 import Settings from '../views/settings/Settings';
