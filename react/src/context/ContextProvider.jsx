@@ -4,7 +4,7 @@ import { useState } from "react";
 const StateContext = createContext({
     currentUser: {},
     userToken: null,
-    events: [],
+    quests: [],
     setCurrentUser: () => {},
     setUserToken: () => {}
 })

@@ -1,11 +1,13 @@
 import PageComponent from "../../components/organisms/pageComponent/PageComponent"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import APIservice from '../../APIservice/APIservice'
 import { useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 export default function CreateQuest() {
   const navigate = useNavigate()
   const [error, setError] = useState("");
+  const { id } = useParams();
 
   const [quest, setQuest] = useState({
     title: '',
@@ -49,7 +51,14 @@ export default function CreateQuest() {
         payload.max_users = parseInt(payload.max_users)
       }
 
-      APIservice.post('/quest',payload)
+      let res= null;
+      if(id){
+        res = APIservice.put(`/quest/${id}`, payload)
+      }else{
+        res = APIservice.post('/quest', payload)
+      }
+
+      res
       .then(() => {
         navigate('/home')
       })
@@ -58,11 +67,25 @@ export default function CreateQuest() {
           setError(err.response.data);
         }
       })
-   
   }
+
+  useEffect(() => {
+    if(id){
+      APIservice.get(`/quest/${id}`)
+      .then(({ data }) => {
+        setQuest(data.data);
+        console.log(data.data)
+      })
+    }
+  },[id])
+
+  
+
+
+
   return (
     <>
-      <PageComponent title='Nueva Quest'>
+      <PageComponent title={!id ? 'Nueva Quest' : 'Editar Quest'}>
       <form action="#" method='POST' onSubmit={onSubmit}>
       <div className="space-y-12 shadow sm:overflow-hidden sm:rounded-md">
         <div className="border-b  space-y-6 bg-white px-4 py-5 sm:p-6">
@@ -88,9 +111,6 @@ export default function CreateQuest() {
                   className="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {/* {error.title && (
-                <small className="text-red-500">{error.title}</small>
-              )} */}
             </div>
             {/*Title*/}
 
@@ -104,6 +124,7 @@ export default function CreateQuest() {
                   id="description"
                   name="description"
                   rows={4}
+                  value={quest.description}
                   onChange={(ev) =>
                     setQuest({ ...quest, description: ev.target.value })
                   }
@@ -128,14 +149,14 @@ export default function CreateQuest() {
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                     >
                        <div className="mt-1 flex items-center">
-                        {quest.banner_img_url && (
+                        {quest.banner_img && (
                           <img
-                            src={quest.banner_img_url}
+                            src={quest.banner_img}
                             alt=""
                             className="w-32 h-32 object-cover"
                           />
                         )}
-                        {!quest.banner_img_url && (
+                        {!quest.banner_img && (
                           <span className="mx-auto flex justify-center  items-center text-gray-400 h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -168,6 +189,7 @@ export default function CreateQuest() {
                     type="text"
                     name="location"
                     id="location"
+                    value={quest.location}
                     onChange={(ev) =>
                       setQuest({ ...quest, location: ev.target.value })
                     }
@@ -207,7 +229,7 @@ export default function CreateQuest() {
                   type="text"
                   name="requisites"
                   id="requisites"
-                
+                  value={quest.requisites}
                   onChange={(ev) =>
                     setQuest({ ...quest, requisites: ev.target.value })
                   }
@@ -228,6 +250,7 @@ export default function CreateQuest() {
                     type="number"
                     name="max_users"
                     id="max-users"
+                    value={quest.max_users}
                     onChange={(ev) =>
                       setQuest({ ...quest, max_users: ev.target.value })
                     }
